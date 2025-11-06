@@ -1,0 +1,335 @@
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@100..900&family=Big+Shoulders+Text:wght@100..900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap');
+
+  .vitrine-produtos-secao{
+    background-color: #D8D7D7;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    .vitrine-produtos-secao-titulo{
+      .texto-modificado{
+        font-family: 'Big Shoulders Stencil Text', cursive;
+        color: {{ section.settings.heading_color }};
+        font-weight: {{ section.settings.font_weight_titulo }};
+      }
+      .sua-classe-de-titulo{
+        font-family: 'Lora', serif;
+        font-weight: {{ section.settings.font_weight_subtitle }};
+        color: {{ section.settings.subtitle_color }};
+      }
+    }
+    .blaze-slider{
+      .blaze-container{
+        position: relative;
+        .blaze-track-container{
+          width: 60vw;
+          
+          .blaze-track{
+            display: flex;
+            padding: 0;
+            gap: 15px;
+            width: 90%;
+            flex-direction: row;
+            justify-content: space-evenly;
+            li{
+              padding: 15px;
+              list-style: none;
+              /* border: #16211A 2px solid; */
+              width: 300px;
+              .meu-card-de-produto{
+                    text-decoration: none;
+                    color: inherit;
+
+                    color: inherit !important;
+                    text-decoration: none;
+                    h2{
+                      margin: 0;
+                      margin-left: 10px;
+                      padding: 0;
+                      color: #16211A !important;
+                      font-family: 'Big Shoulders Text', cursive;
+                      font-weight: 900;
+                    }
+                    p{
+                      margin: 0;
+                      margin-left: 10px;
+                      padding: 0;
+                      color: #381010 !important;
+                      font-family: 'Big Shoulders Text', cursive;
+                      font-weight: 700;
+
+                    }
+                    span{
+                      margin: 0;
+                      margin-left: 10px;
+                      padding: 0;
+                      color: #381010 !important;
+                      font-family: 'Big Shoulders Text', cursive;
+                      font-weight: 200;
+                    }
+                    button{
+                      width: 95%;
+                      height: 50px;
+                      border-radius: 10rem;
+                      font-family: "Big Shoulders Text";
+                      font-weight: 900;
+                      color: #16211A;
+                      background-color: #B9FF33;
+  }
+
+              }
+            }
+          }
+        }
+        .blaze-prev{
+          background: none;
+          border: none;
+          position: absolute;
+          left: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+        }
+        .blaze-next{
+          background: none;
+          border: none;
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+
+        }
+        .blaze-prev, .blaze-next svg{
+          display: none;
+
+          @media screen and (min-width: 768px){
+            display: block;
+            
+          }
+        }
+        .blaze-pagination{
+          position: absolute;
+          bottom: 0;
+          /* margin: 2rem 0; */
+          width: 100%;
+          /* left: 50%; */
+          /* transform: translateX(-50%); */
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* gap: 10px; */
+          button{
+            background-color: transparent;
+            border: 1px solid #CBA146;
+            width: 1rem;
+            height: 1.1rem;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            font-size: 0;
+            
+            &.active{
+              background-color: #CBA146;
+              width: 3.5rem;
+              border-radius: 8rem;
+              
+            }
+          }
+
+      }
+    }
+
+    }
+  }
+
+</style>
+
+
+<div class="vitrine-produtos-secao">
+  <div class="vitrine-produtos-secao-titulo">
+    <h1 class="texto-modificado">{{ section.settings.title }}</h1>
+    <h2 class="sua-classe-de-titulo">esta é um texto de texte</h2>
+  </div>
+  <div class="blaze-slider">
+    <div class="blaze-container">
+      <div class="blaze-track-container">
+        <ul class="blaze-track">
+          {% for productCard in section.settings.product_list %}
+            {% if productCard.title != product.title %}
+              <li>
+                <a class="meu-card-de-produto" href="{{productCard.url}}">
+                  <img src="{{productCard.featured_image | image_url}}"  alt="{{productCard.title}}" width="255px" height="300px" />
+                  <h2>{{ productCard.title }}</h2>
+                  <P>{{ productCard.price |  money}}</P>
+                  <span> em até 3x de {{ productCard.price | divided_by: 3 | money }}</span>
+                  <button type="submit" class="adicionar-ao-carrinho" >ADICIONAR AO CARRINHO</button>
+                  
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- navigation buttons -->
+      <button class="blaze-prev">{{ 'left.svg' |  inline_asset_content }}</button>
+      <button class="blaze-next">{{ 'right.svg' |  inline_asset_content }}</button>
+
+      <!-- pagination container -->
+      <div class="blaze-pagination"></div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://unpkg.com/blaze-slider@latest/dist/blaze-slider.min.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/blaze-slider@latest/dist/blaze.css">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const el = document.querySelector('.blaze-slider')
+    new BlazeSlider(el, {
+      all: {
+        enableAutoplay: true ,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        draggable: true,
+        loop: true,
+        enablePagination: true,
+        enableNavigation: true,
+        autoplayInterval: 2000,
+        transitionDuration: 300,
+      },
+
+    })
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Vitrine de Produtos",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Título da Vitrine",
+        "default": "SNACKS PARA DRAGÕES"
+      }, 
+      {
+        "type": "select",
+        "id": "font_weight_titulo",
+        "label": "Peso da Fonte do Título",
+        "options": [
+          {
+            "value": "100",
+            "label": "100"
+          },
+          {
+            "value": "200",
+            "label": "200"
+          },
+          {
+            "value": "300",
+            "label": "300"
+          },
+          {
+            "value": "400",
+            "label": "400"
+          }, {
+            "value": "500",
+            "label": "500"
+          }, {
+            "value": "600",
+            "label": "600"
+          }, {
+            "value": "700",
+            "label": "700"
+          }, {
+            "value": "800",
+            "label": "800"
+          }, {
+            "value": "900",
+            "label": "900"
+          }
+        ],
+        "default": "900"
+      }, 
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Cor do Título",
+        "default": "#381010"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Defina um subtítulo para a seção",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      },
+      {
+        "type": "color",
+        "id": "subtitle_color",
+        "label": "Cor do Subtítulo",
+        "default": "#381010"
+      },
+      {
+        "type": "select",
+        "id": "font_weight_subtitle",
+        "label": "Peso da Fonte do Subtítulo",
+        "options": [
+          {
+            "value": "100",
+            "label": "100"
+          },
+          {
+            "value": "200",
+            "label": "200"
+          },
+          {
+            "value": "300",
+            "label": "300"
+          },
+          {
+            "value": "400",
+            "label": "400"
+          }, {
+            "value": "500",
+            "label": "500"
+          }, {
+            "value": "600",
+            "label": "600"
+          }, {
+            "value": "700",
+            "label": "700"
+          }, {
+            "value": "800",
+            "label": "800"
+          }, {
+            "value": "900",
+            "label": "900"
+          }
+        ],
+        "default": "500"
+      },
+      {
+        "type": "product_list",
+        "id": "product_list",
+        "label": "Selecione os Produtos para a Vitrine",
+        "limit": 15
+      }
+    ],
+    "presets": [
+      {
+        "name": "Vitrine de Produtos",
+        "settings": {
+          "product_list": ["x-simples", "x-cheese", "x-tudo", "x-picanha"]
+        }
+      }
+    ]
+  }
+{% endschema %}

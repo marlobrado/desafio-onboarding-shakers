@@ -1,0 +1,30 @@
+<div class="vitrine-produtos-secao">
+  <div>
+    <h1 class="texto-modificado">{{ section.settings.title }}</h1>
+    <h2 class="sua-classe-de-titulo">esta é um texto de texte</h2>
+  </div>
+  <div class="blaze-slider">
+    <div class="blaze-container">
+      <div class="blaze-track-container">
+        <ul class="blaze-track">
+          {% for productCard in section.settings.product_list %}
+            {% if productCard.title != product.title %}
+
+              {% comment %} {{productCard.url | json}} {% endcomment %}
+              <li>
+                <a class="meu-card-de-produto" href="{{productCard.url}}">produto {{ productCard.title }} adicionado</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- navigation buttons -->
+      <button class="blaze-prev">previous</button>
+      <button class="blaze-next">next</button>
+
+      <!-- pagination container -->
+      <div class="blaze-pagination"></div>
+    </div>
+  </div>
+</div>
