@@ -110,11 +110,11 @@
             assign button_background_style = button_background_style | append: right_color
             assign button_background_style = button_background_style | append: ' 50%, '
             assign button_background_style = button_background_style | append: right_color
-            assign button_background_style = button_background_style | append: ' 100%); color: #fff; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 1px rgba(0, 0, 0, 0.9);'
+            assign button_background_style = button_background_style | append: ' 100%) !important; color: #fff !important; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 1px rgba(0, 0, 0, 0.9); border-color: rgba(0, 0, 0, 0.35) !important;'
           else
             assign button_background_style = 'background-color: '
             assign button_background_style = button_background_style | append: button_color
-            assign button_background_style = button_background_style | append: '; color: #fff; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 1px rgba(0, 0, 0, 0.9);'
+            assign button_background_style = button_background_style | append: ' !important; color: #fff !important; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 1px rgba(0, 0, 0, 0.9); border-color: rgba(0, 0, 0, 0.35) !important;'
           endif
         endif
       endif
