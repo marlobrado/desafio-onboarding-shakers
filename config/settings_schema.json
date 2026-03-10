@@ -8,6 +8,24 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "Color Swatch",
+    "settings": [
+      // {
+      //   "type": "checkbox",
+      //   "id": "round_color_swatches",
+      //   "label": "t:theme_settings.color_swatch.round_color_swatches",
+      //   "default": false
+      // },
+      {
+        "type": "textarea",
+        "id": "color_swatch_config",
+        "label": "Configuration ",
+        "placeholder": "Red:#ff0000\nGreen:#00ff00\nBlue:#0000ff",
+        "info": "none"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo.name",
     "settings": [
       {
