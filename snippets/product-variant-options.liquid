@@ -77,6 +77,48 @@
       additional_props: input_dataset
     %}
   {%- elsif picker_type == 'button' -%}
+    {%- liquid
+      assign button_color = blank
+      assign button_background_style = blank
+      if option.name contains 'Color' or option.name contains 'Cor'
+        assign color_swatch_rows = settings.color_swatch_config | newline_to_br | split: '<br />'
+        assign current_value = value | strip | downcase
+
+        for color_row in color_swatch_rows
+          assign color_row = color_row | strip
+          if color_row != blank and color_row contains ':'
+            assign color_parts = color_row | split: ':'
+            assign color_name = color_parts[0] | strip | downcase
+
+            if color_name == current_value
+              assign button_color = color_parts[1] | strip
+              break
+            endif
+          endif
+        endfor
+
+        if button_color != blank
+          if button_color contains '/'
+            assign split_colors = button_color | split: '/'
+            assign left_color = split_colors[0] | strip
+            assign right_color = split_colors[1] | default: split_colors[0] | strip
+            assign button_background_style = 'background: linear-gradient(90deg, '
+            assign button_background_style = button_background_style | append: left_color
+            assign button_background_style = button_background_style | append: ' 0%, '
+            assign button_background_style = button_background_style | append: left_color
+            assign button_background_style = button_background_style | append: ' 50%, '
+            assign button_background_style = button_background_style | append: right_color
+            assign button_background_style = button_background_style | append: ' 50%, '
+            assign button_background_style = button_background_style | append: right_color
+            assign button_background_style = button_background_style | append: ' 100%); color: #fff; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 1px rgba(0, 0, 0, 0.9);'
+          else
+            assign button_background_style = 'background-color: '
+            assign button_background_style = button_background_style | append: button_color
+            assign button_background_style = button_background_style | append: '; color: #fff; text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 0 1px rgba(0, 0, 0, 0.9);'
+          endif
+        endif
+      endif
+    -%}
     <input
       type="radio"
       id="{{ input_id }}"
@@ -91,7 +133,12 @@
       {% endif %}
       {{ input_dataset }}
     >
-    <label for="{{ input_id }}">
+    <label
+      for="{{ input_id }}"
+      {% if button_background_style != blank %}
+        style="{{ button_background_style }}"
+      {% endif %}
+    >
       {{ value -}}
       {{ label_unavailable }}
     </label>
